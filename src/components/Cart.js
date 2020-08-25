@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import formatCurrency from '../util';
+import {Fade} from "react-reveal"
 
 export default class Cart extends Component {
     constructor(props) {
@@ -42,22 +43,24 @@ export default class Cart extends Component {
                 </div>
 
                 <div className="cart">
-                    <ul className="cart-items">
-                        {cartItems.map(product => (
-                            <li key={product._id}>
-                                <div>
-                                    <img src={product.image} alt=""></img>
-                                </div>
-                                <div>
-                                    <div>{product.title}</div>
-                                    <div className="right">
-                                        {formatCurrency(product.price)} x {product.count}{" "}
-                                        <button className="button" onClick={() => removeFromCart(product)}>Remove</button>
+                    <Fade left cascade>
+                        <ul className="cart-items">
+                            {cartItems.map(product => (
+                                <li key={product._id}>
+                                    <div>
+                                        <img src={product.image} alt=""></img>
                                     </div>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                                    <div>
+                                        <div>{product.title}</div>
+                                        <div className="right">
+                                            {formatCurrency(product.price)} x {product.count}{" "}
+                                            <button className="button" onClick={() => removeFromCart(product)}>Remove</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </Fade>
                 </div>
 
                 {cartItems.length!==0 && (<div className="cart">
@@ -73,6 +76,7 @@ export default class Cart extends Component {
                 {showCheckout && (
                     <div className="cart">
                         <form onSubmit={createOrder}>
+                            <Fade cascade right>
                             <ul className="form-container">
                                 <li>
                                     <label>Email</label>
@@ -105,6 +109,7 @@ export default class Cart extends Component {
                                     <button className="button primary" type="submit">Checkout</button>
                                 </li>
                             </ul>
+                            </Fade>
                         </form>
                     </div>
                 )}
