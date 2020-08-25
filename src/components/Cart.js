@@ -2,8 +2,36 @@ import React, { Component } from 'react'
 import formatCurrency from '../util';
 
 export default class Cart extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            showCheckout: false,
+            email: "",
+            name: "",
+            address: ""
+        }
+    }
+
+    handleInput = (e) => {
+        this.setState({[e.target.name]: e.target.value})
+    }
+
+    createOrder = (e) => {
+        e.preventDefault();
+        const order = {
+            email: this.state.email,
+            name: this.state.name,
+            address: this.state.address,
+            cartItems: this.props.cartItems
+        };
+
+        this.props.createOrder(order);
+    }
+
     render() {
         const { cartItems, removeFromCart } = this.props;
+        const { showCheckout } = this.state;
+        const { handleInput, createOrder } = this;
         return (
             <div>
                 <div>
@@ -16,7 +44,7 @@ export default class Cart extends Component {
                 <div className="cart">
                     <ul className="cart-items">
                         {cartItems.map(product => (
-                            <li key={cartItems._id}>
+                            <li key={product._id}>
                                 <div>
                                     <img src={product.image} alt=""></img>
                                 </div>
@@ -37,11 +65,49 @@ export default class Cart extends Component {
                         <div>
                             Total:{" "} 
                             {formatCurrency(cartItems.reduce((a, b) => b.price * b.count + a, 0))}
-                        </div>
-                        <button className="button primary">Proceed</button>
+                        </div> 
+                        <button className="button primary" onClick={() => this.setState({showCheckout: true})}>Proceed</button>
                     </div>
                 </div>)}
                 
+                {showCheckout && (
+                    <div className="cart">
+                        <form onSubmit={createOrder}>
+                            <ul className="form-container">
+                                <li>
+                                    <label>Email</label>
+                                    <input
+                                        name="email"
+                                        type="email"
+                                        required
+                                        onChange={handleInput}
+                                    ></input>
+                                </li>
+                                <li>
+                                    <label>Name</label>
+                                    <input
+                                        name="name"
+                                        type="text"
+                                        required
+                                        onChange={handleInput}
+                                    ></input>
+                                </li>
+                                <li>
+                                    <label>Address</label>
+                                    <input
+                                        name="address"
+                                        type="text"
+                                        required
+                                        onChange={handleInput}
+                                    ></input>
+                                </li>
+                                <li>
+                                    <button className="button primary" type="submit">Checkout</button>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                )}
             </div>
         )
     }

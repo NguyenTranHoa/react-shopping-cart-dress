@@ -9,7 +9,7 @@ class App extends React.Component {
     super();
     this.state = {
       products: data.products,
-      cartItems: [],
+      cartItems: localStorage.getItem("cartItems") ? JSON.parse(localStorage.getItem("cartItems")) : [],
       size: "",
       sort: ""
     }
@@ -57,19 +57,26 @@ class App extends React.Component {
 
     this.setState({
       cartItems
-    }, () => console.log(this.state.cartItems))
+    })
     
+    localStorage.setItem("cartItems", JSON.stringify(cartItems))
   }
 
   removeFromCart = (product) => {
     const cartItems = this.state.cartItems.slice();
     
     this.setState({cartItems: cartItems.filter((item) => item._id!==product._id)});
+
+    localStorage.setItem("cartItems", JSON.stringify(cartItems.filter((item) => item._id!==product._id)))
+  }
+
+  createOrder = (order) => {
+    console.log(order)
   }
   
   render() {
-    const {products, size, sort, cartItems} = this.state;
-    const {sortProducts, filterProducts, addToCart, removeFromCart} = this;
+    const { products, size, sort, cartItems } = this.state;
+    const { sortProducts, filterProducts, addToCart, removeFromCart, createOrder } = this;
     return (
       <div className="grid-container">
         <header>
@@ -93,7 +100,8 @@ class App extends React.Component {
             <div className="sidebar">
               <Cart 
                 cartItems={cartItems} 
-                removeFromCart={removeFromCart}  
+                removeFromCart={removeFromCart} 
+                createOrder={createOrder} 
               />
             </div>
           </div>
