@@ -224,3 +224,44 @@ input {
   padding: 1rem;
   border: .1rem solid #c0c0c0;
 }
+
+/* Product details */
+.product-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-height: 96vh;
+  width: 90%;
+  margin: 3rem;
+}
+
+.product-details img {
+  max-width: 46rem;
+  max-height: 46rem;
+  margin: 2rem auto;
+}
+
+.product-details-description {
+  flex: 1 1;
+  margin: 3rem;
+}
+
+.product-price .button {
+  width: 2rem;
+}
+
+.product-size ul {
+  list-style-type: none;
+  display: flex;
+}
+
+.product-size li {
+  margin: 1rem;
+}
+
+.close-modal {
+  position: absolute;
+  right: 1rem;
+  top: 2.5rem;
+  z-index: 1000;
+}
